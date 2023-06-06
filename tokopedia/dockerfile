@@ -1,0 +1,15 @@
+FROM debian:buster-slim
+
+RUN apt-get update \
+    && apt-get install -y python3 python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY . .
+
+# Menyalin file konfigurasi Firebase ke dalam container
+COPY kripto-scraper-firebase-adminsdk-i77qf-c5d6bd8cac.json .
+
+RUN pip3 install --upgrade pip && python3 -m pip install --upgrade setuptools && pip3 install --no-cache-dir -r requirements.txt
+
+CMD ["python3", "app.py"]
